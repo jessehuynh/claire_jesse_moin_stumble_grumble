@@ -157,7 +157,7 @@ header .wrapper {
     transform: translateX(-50%);
     animation: pulsate 3s infinite;
     z-index: -1; }
-    @media (min-width: 450px) {
+    @media (min-width: 400px) {
       header .wrapper figure {
         width: 30%;
         left: 35%; } }
@@ -188,7 +188,7 @@ main .wrapper {
   padding-top: 1px;
   width: 98%;
   margin: 0 auto; }
-  @media (min-width: 450px) {
+  @media (min-width: 400px) {
     main .wrapper {
       width: 75%; } }
   @media (min-width: 700px) {
@@ -254,7 +254,7 @@ figure.logo {
       padding: 0;
       font-size: 1.5rem;
       position: relative; }
-      @media (min-width: 450px) {
+      @media (min-width: 400px) {
         .results article ul:nth-of-type(1) .price {
           font-size: 2rem; } }
 
@@ -387,7 +387,6 @@ body {
   color: #002350;
   font-size: 1.8rem;
   font-family: "Raleway", sans-serif;
-  min-width: 400px;
   max-width: 1500px; }
   @media (min-width: 700px) {
     body {

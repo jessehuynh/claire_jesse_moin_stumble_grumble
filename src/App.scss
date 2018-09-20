@@ -18,7 +18,6 @@ body {
   color:$primary;
   font-size:1.8rem;
   font-family:$bodyFont;
-  min-width:400px;
   max-width:1500px;
   @include breakPoint(secondBreak) {
     font-size:1.6rem;

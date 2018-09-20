@@ -7,7 +7,7 @@ $light: #D6D6D6;
 
 @mixin breakPoint($point) {
     @if $point == firstBreak {
-        @media (min-width:450px) { @content;}
+        @media (min-width:400px) { @content;}
     }
     @if $point == secondBreak {
         @media (min-width:700px) { @content;}
