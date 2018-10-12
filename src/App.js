@@ -34,61 +34,68 @@ class App extends Component {
           method: 'GET',
           url: 'https://proxy.hackeryou.com',
           dataResponse: 'json',
-          paramsSerializer: function (params) {
-            return Qs.stringify(params, { arrayFormat: 'brackets' })
+          paramsSerializer: function(params) {
+            return Qs.stringify(params, { arrayFormat: 'brackets' });
           },
           params: {
-            reqUrl: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+            reqUrl:
+              'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
             params: {
-              key: 'AIzaSyDZWNrRFSs1j2Mjhfaj8KHbQI91VuACATk',
+              key: 'AIzaSyAmNTv4jwpUMR9Ib53PVgxCv0zsqxM6FJU',
               location: `${lat} ${lon}`,
               radius: 1000,
               keyword: 'restaurant',
-              opennow: true,
+              opennow: true
             },
             xmlToJSON: false
           }
-
         }).then(res => {
-          this.setState ({
-            restaurants: res.data.results,
-            originAddress: `${lat} ${lon}`
-          }, () => {
-            this.state.restaurants.map((restaurant) => {
-              axios({
-                method: 'GET',
-                url: 'https://proxy.hackeryou.com',
-                dataResponse: 'json',
-                paramsSerializer: function (params) {
-                  return Qs.stringify(params, { arrayFormat: 'brackets' })
-                },
-                params: {
-                  reqUrl: 'https://maps.googleapis.com/maps/api/place/details/json',
-                  params: {
-                    key: 'AIzaSyAbAXUsOiNgsbUhM0Z1MB7Us9SrDtRXfsI',
-                    placeid: restaurant.place_id,
+          this.setState(
+            {
+              restaurants: res.data.results,
+              originAddress: `${lat} ${lon}`
+            },
+            () => {
+              this.state.restaurants.map(restaurant => {
+                axios({
+                  method: 'GET',
+                  url: 'https://proxy.hackeryou.com',
+                  dataResponse: 'json',
+                  paramsSerializer: function(params) {
+                    return Qs.stringify(params, {
+                      arrayFormat: 'brackets'
+                    });
                   },
-                  xmlToJSON: false
-                }
-              }).then(res => {
-                const detailObject = {}
-                detailObject.id = restaurant.place_id
-                detailObject.phoneNum = res.data.result.formatted_phone_number
-                detailObject.menu = res.data.result.website
-                const newState = this.state.restaurantDetails
-                newState.push(detailObject);
-                this.setState({
-                  restaurantDetails: newState
-                })
-              })
-            })
-          })
-        })
+                  params: {
+                    reqUrl:
+                      'https://maps.googleapis.com/maps/api/place/details/json',
+                    params: {
+                      key: 'AIzaSyAtEinSkBfsmHf9Em2PSzzuDIPiIxM_108',
+                      placeid: restaurant.place_id
+                    },
+                    xmlToJSON: false
+                  }
+                }).then(res => {
+                  const detailObject = {};
+                  detailObject.id = restaurant.place_id;
+                  detailObject.phoneNum =
+                    res.data.result.formatted_phone_number;
+                  detailObject.menu = res.data.result.website;
+                  const newState = this.state.restaurantDetails;
+                  newState.push(detailObject);
+                  this.setState({
+                    restaurantDetails: newState
+                  });
+                });
+              });
+            }
+          );
+        });
       } // end of geoSuccess
       var geoError = function (error) {
         console.log('Error occurred. Error code: ' + error.code);
         document.querySelector('.hide').classList.remove('hide');
-      } // end of geoError
+      }; // end of geoError
       navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
     }; //end of component did mount
   // }
@@ -105,13 +112,13 @@ class App extends Component {
         method: 'GET',
         url: 'https://proxy.hackeryou.com',
         dataResponse: 'json',
-        paramsSerializer: function (params) {
-          return Qs.stringify(params, { arrayFormat: 'brackets' })
+        paramsSerializer: function(params) {
+          return Qs.stringify(params, { arrayFormat: 'brackets' });
         },
         params: {
           reqUrl: 'https://maps.googleapis.com/maps/api/directions/json?',
           params: {
-            key: 'AIzaSyBoRawmMG_0IPI25vStlhDGFifDwDcWZFs',
+            key: 'AIzaSyABmgjBqwtrOCrUeczRs3ETTkR9SvxMldE',
             origin: `${this.state.originAddress}`,
             destination: `${this.state.destination}`,
             mode: 'walking'
@@ -119,16 +126,15 @@ class App extends Component {
           xmlToJSON: false
         }
       }).then(res => {
-        this.setState({
-          directions: res.data.routes[0].legs[0].steps
-        })
+        console.log(res.data);
+        this.setState({ directions: res.data.routes[0].legs[0].steps });
         this.props.history.push({
           pathname: '/results/directions',
-          destination:this.state.destination,
-          directions:this.state.directions,
-        })
+          destination: this.state.destination,
+          directions: this.state.directions
+        });
         // console.log(res);
-      })
+      });
     })  
   }
   getUserInput = (restaurantsArray) => {
@@ -170,15 +176,3 @@ class App extends Component {
 }
 
 export default App;
-
-// on get started, app will prompt user to allow location services (geolocation api)
-// once allowed, the results will display the resautrants within a default 1km radius (the user can also search by rating, price, etc.)
-// if they decline geolocation, create an array of funny responses to cycle through "well, do you want to eat?"
-// OOOOR if the decline, displya the form so they acn type in their location
-// on each card, the restaurant name, hours, phone number, menu, distance, and 'get directions' button is displayed
-// the user can change the radius at the top if they want
-// when get direction is clicked, the directions API loads and routes us to our Directions component
-// the directions component takes the user's location from the geolocation api and the address from the places api and displays a route on a map
-// add preloader!!
-
-// find a way to re-route user to Results.js on refresh of DestinationMap.js
